@@ -7,12 +7,10 @@ describe('porodnica-ambulance-home', () => {
       components: [PorodnicaAmbulanceHome],
       html: `<porodnica-ambulance-home></porodnica-ambulance-home>`,
     });
-    expect(page.root).toEqualHtml(`
-      <porodnica-ambulance-home>
-        <mock:shadow-root>
-          <slot></slot>
-        </mock:shadow-root>
-      </porodnica-ambulance-home>
-    `);
+    const wlList = page.rootInstance as PorodnicaAmbulanceHome;
+    const expectedPatients = wlList?.waitingPatients?.length
+
+    const items = page.root.shadowRoot.querySelectorAll("md-list-item");
+    expect(items.length).toEqual(expectedPatients);
   });
 });
