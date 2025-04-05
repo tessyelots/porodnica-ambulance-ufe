@@ -12,7 +12,7 @@ export class PorodnicaAmbulanceHome {
   private async getWaitingPatientsAsync() {
     return await Promise.resolve([
       {
-        name: 'Anna Nováková',
+        name: 'Anna Nováková please please',
         patientId: '10001',
         arrivedAt: new Date(Date.now() - 65 * 60000),
         estimatedLaborDate: new Date(Date.now() + 7 * 24 * 60 * 60000),
