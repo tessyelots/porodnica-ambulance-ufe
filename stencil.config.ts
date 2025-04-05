@@ -2,7 +2,7 @@ import { Config } from '@stencil/core';
 
 export const config: Config = {
   globalScript: 'src/global/app.ts',
-  namespace: 'stencil-starter-project-name',
+  namespace: 'porodnica-ambulance-ufe',
   outputTargets: [
     {
       type: 'dist',
