@@ -13,6 +13,8 @@ export class PorodnicaAmbulanceHomeApp {
   @State() private relativePath = "";
 
   @Prop() basePath: string="";
+  @Prop() apiBase: string;
+  @Prop() porodnicaId: string;
 
   componentWillLoad() {
     const baseUri = new URL(this.basePath, document.baseURI || "/").pathname;
@@ -55,7 +57,7 @@ export class PorodnicaAmbulanceHomeApp {
         ? <porodnica-ambulance-home-editor entry-id={entryId}
             oneditor-closed={ () => navigate("./list")} >
           </porodnica-ambulance-home-editor>
-        : <porodnica-ambulance-home
+        : <porodnica-ambulance-home porodnica-id={this.porodnicaId} api-base={this.apiBase}
         onentry-clicked={ (ev: CustomEvent<string>)=> navigate("./entry/" + ev.detail) } >
           </porodnica-ambulance-home>
         }

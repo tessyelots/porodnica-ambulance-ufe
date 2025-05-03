@@ -7,9 +7,13 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface PorodnicaAmbulanceHome {
+        "apiBase": string;
+        "porodnicaId": string;
     }
     interface PorodnicaAmbulanceHomeApp {
+        "apiBase": string;
         "basePath": string;
+        "porodnicaId": string;
     }
     interface PorodnicaAmbulanceHomeEditor {
         "entryId": string;
@@ -72,10 +76,14 @@ declare global {
 }
 declare namespace LocalJSX {
     interface PorodnicaAmbulanceHome {
+        "apiBase"?: string;
         "onEntry-clicked"?: (event: PorodnicaAmbulanceHomeCustomEvent<string>) => void;
+        "porodnicaId"?: string;
     }
     interface PorodnicaAmbulanceHomeApp {
+        "apiBase"?: string;
         "basePath"?: string;
+        "porodnicaId"?: string;
     }
     interface PorodnicaAmbulanceHomeEditor {
         "entryId"?: string;

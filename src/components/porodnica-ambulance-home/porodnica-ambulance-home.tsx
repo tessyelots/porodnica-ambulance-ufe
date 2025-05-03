@@ -1,4 +1,5 @@
-import { Component, Event, EventEmitter,  Host, h } from '@stencil/core';
+import { Component, Event, EventEmitter, Host, Prop, State, h } from '@stencil/core';
+import { PorodnicaWaitingListApi, WaitingListEntry, Configuration } from '../../api/porodnica-ambulance-home';
 
 @Component({
   tag: 'porodnica-ambulance-home',
@@ -7,33 +8,30 @@ import { Component, Event, EventEmitter,  Host, h } from '@stencil/core';
 })
 export class PorodnicaAmbulanceHome {
   @Event({ eventName: "entry-clicked"}) entryClicked: EventEmitter<string>;
+  @Prop() apiBase: string;
+  @Prop() porodnicaId: string;
+  @State() errorMessage: string;
 
-  waitingPatients: any[];
+  waitingPatients: WaitingListEntry[];
 
-  private async getWaitingPatientsAsync() {
-    return await Promise.resolve([
-      {
-        name: 'Anna Nováková please please',
-        patientId: '10001',
-        arrivedAt: new Date(Date.now() - 65 * 60000),
-        estimatedLaborDate: new Date(Date.now() + 7 * 24 * 60 * 60000),
-        gaveBirth: false
-      },
-      {
-        name: 'Mária Kováčová',
-        patientId: '10096',
-        arrivedAt: new Date(Date.now() - 30 * 60000),
-        estimatedLaborDate: new Date(Date.now() + 2 * 24 * 60 * 60000),
-        gaveBirth: false
-      },
-      {
-        name: 'Eva Horváthová',
-        patientId: '10028',
-        arrivedAt: new Date(Date.now() - 120 * 60000),
-        estimatedLaborDate: new Date(Date.now() - 1 * 24 * 60 * 60000),
-        gaveBirth: true
+  private async getWaitingPatientsAsync(): Promise<WaitingListEntry[]> {
+    // be prepared for connectivitiy issues
+    try {
+      const configuration = new Configuration({
+        basePath: this.apiBase,
+      });
+
+      const waitingListApi = new PorodnicaWaitingListApi(configuration);
+      const response = await waitingListApi.getWaitingListEntriesRaw({porodnicaId: this.porodnicaId})
+      if (response.raw.status < 299) {
+        return await response.value();
+      } else {
+        this.errorMessage = `Cannot retrieve list of waiting patients: ${response.raw.statusText}`
       }
-    ]);
+    } catch (err: any) {
+      this.errorMessage = `Cannot retrieve list of waiting patients: ${err.message || "unknown"}`
+    }
+    return [];
   }
 
   async componentWillLoad() {
@@ -43,16 +41,20 @@ export class PorodnicaAmbulanceHome {
   render() {
     return (
       <Host>
-        <md-list>
-        {this.waitingPatients.map((patient, index) =>
-            <md-list-item onClick={ () => {this.entryClicked.emit(index.toString()); console.log(index)}}>
-                <div slot="headline">{patient.name}</div>
-                <div slot="supporting-text">{"Predpokladaný porod: " + patient.estimatedLaborDate?.toLocaleString()}</div>
-                <md-icon slot="start">person</md-icon>
-            </md-list-item>
-          )}
-        </md-list>
-      </Host>
+      {this.errorMessage
+        ? <div class="error">{this.errorMessage}</div>
+        :
+      <md-list>
+        {this.waitingPatients.map(patient =>
+          <md-list-item onClick={ () => this.entryClicked.emit(patient.id)} >
+            <div slot="headline">{patient.name}</div>
+            <div slot="supporting-text">{"Predpokladaný porod: " + patient.estimatedLaborDate?.toLocaleString()}</div>
+            <md-icon slot="start">person</md-icon>
+          </md-list-item>
+        )}
+      </md-list>
+      }
+    </Host>
     );
   }
 }
