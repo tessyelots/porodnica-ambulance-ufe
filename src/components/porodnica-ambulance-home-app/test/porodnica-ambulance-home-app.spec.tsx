@@ -23,6 +23,6 @@ describe('porodnica-ambulance-home-app', () => {
     });
     page.win.navigation = new EventTarget()
     const child = await page.root.shadowRoot.firstElementChild;
-    expect(child.tagName.toLocaleLowerCase()).toEqual("porodnica-ambulance-home-list");
+    expect(child.tagName.toLocaleLowerCase()).toEqual("porodnica-ambulance-home");
   });
 });
