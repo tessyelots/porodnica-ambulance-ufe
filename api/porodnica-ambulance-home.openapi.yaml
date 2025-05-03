@@ -44,7 +44,152 @@ paths:
                   $ref: "#/components/examples/WaitingListEntriesExample"
         "404":
           description: Porodnica with such ID does not exist
-
+    post:
+      tags:
+        - porodnicaWaitingList
+      summary: Saves new entry into waiting list
+      operationId: createWaitingListEntry
+      description: Use this method to store new entry into the waiting list.
+      parameters:
+        - in: path
+          name: porodnicaId
+          description: pass the id of the particular porodnica
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WaitingListEntry"
+            examples:
+              request-sample:
+                $ref: "#/components/examples/WaitingListEntryExample"
+        description: Waiting list entry to store
+        required: true
+      responses:
+        "200":
+          description: >-
+            Value of the waiting list entry with re-computed estimated time of
+            porodnica entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WaitingListEntry"
+              examples:
+                updated-response:
+                  $ref: "#/components/examples/WaitingListEntryExample"
+        "400":
+          description: Missing mandatory properties of input object.
+        "404":
+          description: Porodnica with such ID does not exists
+        "409":
+          description: Entry with the specified id already exists
+  "/waiting-list/{porodnicaId}/entries/{entryId}":
+    get:
+      tags:
+        - porodnicaWaitingList
+      summary: Provides details about waiting list entry
+      operationId: getWaitingListEntry
+      description: >-
+        By using porodnicaId and entryId you can details of particular entry
+        item porodnica.
+      parameters:
+        - in: path
+          name: porodnicaId
+          description: pass the id of the particular porodnica
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: entryId
+          description: pass the id of the particular entry in the waiting list
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: value of the waiting list entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WaitingListEntry"
+              examples:
+                response:
+                  $ref: "#/components/examples/WaitingListEntryExample"
+        "404":
+          description: Porodnica or Entry with such ID does not exists
+    put:
+      tags:
+        - porodnicaWaitingList
+      summary: Updates specific entry
+      operationId: updateWaitingListEntry
+      description: Use this method to update content of the waiting list entry.
+      parameters:
+        - in: path
+          name: porodnicaId
+          description: pass the id of the particular porodnica
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: entryId
+          description: pass the id of the particular entry in the waiting list
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WaitingListEntry"
+            examples:
+              request:
+                $ref: "#/components/examples/WaitingListEntryExample"
+        description: Waiting list entry to update
+        required: true
+      responses:
+        "200":
+          description: >-
+            value of the waiting list entry with re-computed estimated time of
+            porodnica entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WaitingListEntry"
+              examples:
+                response:
+                  $ref: "#/components/examples/WaitingListEntryExample"
+        "403":
+          description: >-
+            Value of the entryID and the data id is mismatching. Details are
+            provided in the response body.
+        "404":
+          description: Porodnica or Entry with such ID does not exists
+    delete:
+      tags:
+        - porodnicaWaitingList
+      summary: Deletes specific entry
+      operationId: deleteWaitingListEntry
+      description: Use this method to delete the specific entry from the waiting list.
+      parameters:
+        - in: path
+          name: porodnicaId
+          description: pass the id of the particular porodnica
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: entryId
+          description: pass the id of the particular entry in the waiting list
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Item deleted
+        "404":
+          description: Porodnica or Entry with such ID does not exists
 components:
   schemas:
     WaitingListEntry:

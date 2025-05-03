@@ -16,7 +16,9 @@ export namespace Components {
         "porodnicaId": string;
     }
     interface PorodnicaAmbulanceHomeEditor {
+        "apiBase": string;
         "entryId": string;
+        "porodnicaId": string;
     }
 }
 export interface PorodnicaAmbulanceHomeCustomEvent<T> extends CustomEvent<T> {
@@ -86,8 +88,10 @@ declare namespace LocalJSX {
         "porodnicaId"?: string;
     }
     interface PorodnicaAmbulanceHomeEditor {
+        "apiBase"?: string;
         "entryId"?: string;
         "onEditor-closed"?: (event: PorodnicaAmbulanceHomeEditorCustomEvent<string>) => void;
+        "porodnicaId"?: string;
     }
     interface IntrinsicElements {
         "porodnica-ambulance-home": PorodnicaAmbulanceHome;

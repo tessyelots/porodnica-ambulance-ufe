@@ -55,6 +55,7 @@ export class PorodnicaAmbulanceHomeApp {
       <Host>
         { element === "editor"
         ? <porodnica-ambulance-home-editor entry-id={entryId}
+            porodnica-id={this.porodnicaId} api-base={this.apiBase}
             oneditor-closed={ () => navigate("./list")} >
           </porodnica-ambulance-home-editor>
         : <porodnica-ambulance-home porodnica-id={this.porodnicaId} api-base={this.apiBase}

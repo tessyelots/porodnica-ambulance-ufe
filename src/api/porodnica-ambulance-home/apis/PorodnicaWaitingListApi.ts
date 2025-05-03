@@ -19,10 +19,32 @@ import type {
 } from '../models';
 import {
     WaitingListEntryFromJSON,
+    WaitingListEntryToJSON,
 } from '../models';
+
+export interface CreateWaitingListEntryRequest {
+    porodnicaId: string;
+    waitingListEntry: WaitingListEntry;
+}
+
+export interface DeleteWaitingListEntryRequest {
+    porodnicaId: string;
+    entryId: string;
+}
 
 export interface GetWaitingListEntriesRequest {
     porodnicaId: string;
+}
+
+export interface GetWaitingListEntryRequest {
+    porodnicaId: string;
+    entryId: string;
+}
+
+export interface UpdateWaitingListEntryRequest {
+    porodnicaId: string;
+    entryId: string;
+    waitingListEntry: WaitingListEntry;
 }
 
 /**
@@ -32,6 +54,40 @@ export interface GetWaitingListEntriesRequest {
  * @interface PorodnicaWaitingListApiInterface
  */
 export interface PorodnicaWaitingListApiInterface {
+    /**
+     * Use this method to store new entry into the waiting list.
+     * @summary Saves new entry into waiting list
+     * @param {string} porodnicaId pass the id of the particular porodnica
+     * @param {WaitingListEntry} waitingListEntry Waiting list entry to store
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PorodnicaWaitingListApiInterface
+     */
+    createWaitingListEntryRaw(requestParameters: CreateWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WaitingListEntry>>;
+
+    /**
+     * Use this method to store new entry into the waiting list.
+     * Saves new entry into waiting list
+     */
+    createWaitingListEntry(requestParameters: CreateWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WaitingListEntry>;
+
+    /**
+     * Use this method to delete the specific entry from the waiting list.
+     * @summary Deletes specific entry
+     * @param {string} porodnicaId pass the id of the particular porodnica
+     * @param {string} entryId pass the id of the particular entry in the waiting list
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PorodnicaWaitingListApiInterface
+     */
+    deleteWaitingListEntryRaw(requestParameters: DeleteWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Use this method to delete the specific entry from the waiting list.
+     * Deletes specific entry
+     */
+    deleteWaitingListEntry(requestParameters: DeleteWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
     /**
      * By using porodnicaId you get list of entries in porodnica waiting list
      * @summary Provides the porodnica waiting list
@@ -48,12 +104,121 @@ export interface PorodnicaWaitingListApiInterface {
      */
     getWaitingListEntries(requestParameters: GetWaitingListEntriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<WaitingListEntry>>;
 
+    /**
+     * By using porodnicaId and entryId you can details of particular entry item porodnica.
+     * @summary Provides details about waiting list entry
+     * @param {string} porodnicaId pass the id of the particular porodnica
+     * @param {string} entryId pass the id of the particular entry in the waiting list
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PorodnicaWaitingListApiInterface
+     */
+    getWaitingListEntryRaw(requestParameters: GetWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WaitingListEntry>>;
+
+    /**
+     * By using porodnicaId and entryId you can details of particular entry item porodnica.
+     * Provides details about waiting list entry
+     */
+    getWaitingListEntry(requestParameters: GetWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WaitingListEntry>;
+
+    /**
+     * Use this method to update content of the waiting list entry.
+     * @summary Updates specific entry
+     * @param {string} porodnicaId pass the id of the particular porodnica
+     * @param {string} entryId pass the id of the particular entry in the waiting list
+     * @param {WaitingListEntry} waitingListEntry Waiting list entry to update
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PorodnicaWaitingListApiInterface
+     */
+    updateWaitingListEntryRaw(requestParameters: UpdateWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WaitingListEntry>>;
+
+    /**
+     * Use this method to update content of the waiting list entry.
+     * Updates specific entry
+     */
+    updateWaitingListEntry(requestParameters: UpdateWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WaitingListEntry>;
+
 }
 
 /**
  * 
  */
 export class PorodnicaWaitingListApi extends runtime.BaseAPI implements PorodnicaWaitingListApiInterface {
+
+    /**
+     * Use this method to store new entry into the waiting list.
+     * Saves new entry into waiting list
+     */
+    async createWaitingListEntryRaw(requestParameters: CreateWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WaitingListEntry>> {
+        if (requestParameters.porodnicaId === null || requestParameters.porodnicaId === undefined) {
+            throw new runtime.RequiredError('porodnicaId','Required parameter requestParameters.porodnicaId was null or undefined when calling createWaitingListEntry.');
+        }
+
+        if (requestParameters.waitingListEntry === null || requestParameters.waitingListEntry === undefined) {
+            throw new runtime.RequiredError('waitingListEntry','Required parameter requestParameters.waitingListEntry was null or undefined when calling createWaitingListEntry.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/waiting-list/{porodnicaId}/entries`.replace(`{${"porodnicaId"}}`, encodeURIComponent(String(requestParameters.porodnicaId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: WaitingListEntryToJSON(requestParameters.waitingListEntry),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => WaitingListEntryFromJSON(jsonValue));
+    }
+
+    /**
+     * Use this method to store new entry into the waiting list.
+     * Saves new entry into waiting list
+     */
+    async createWaitingListEntry(requestParameters: CreateWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WaitingListEntry> {
+        const response = await this.createWaitingListEntryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Use this method to delete the specific entry from the waiting list.
+     * Deletes specific entry
+     */
+    async deleteWaitingListEntryRaw(requestParameters: DeleteWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.porodnicaId === null || requestParameters.porodnicaId === undefined) {
+            throw new runtime.RequiredError('porodnicaId','Required parameter requestParameters.porodnicaId was null or undefined when calling deleteWaitingListEntry.');
+        }
+
+        if (requestParameters.entryId === null || requestParameters.entryId === undefined) {
+            throw new runtime.RequiredError('entryId','Required parameter requestParameters.entryId was null or undefined when calling deleteWaitingListEntry.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/waiting-list/{porodnicaId}/entries/{entryId}`.replace(`{${"porodnicaId"}}`, encodeURIComponent(String(requestParameters.porodnicaId))).replace(`{${"entryId"}}`, encodeURIComponent(String(requestParameters.entryId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Use this method to delete the specific entry from the waiting list.
+     * Deletes specific entry
+     */
+    async deleteWaitingListEntry(requestParameters: DeleteWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteWaitingListEntryRaw(requestParameters, initOverrides);
+    }
 
     /**
      * By using porodnicaId you get list of entries in porodnica waiting list
@@ -84,6 +249,85 @@ export class PorodnicaWaitingListApi extends runtime.BaseAPI implements Porodnic
      */
     async getWaitingListEntries(requestParameters: GetWaitingListEntriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<WaitingListEntry>> {
         const response = await this.getWaitingListEntriesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * By using porodnicaId and entryId you can details of particular entry item porodnica.
+     * Provides details about waiting list entry
+     */
+    async getWaitingListEntryRaw(requestParameters: GetWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WaitingListEntry>> {
+        if (requestParameters.porodnicaId === null || requestParameters.porodnicaId === undefined) {
+            throw new runtime.RequiredError('porodnicaId','Required parameter requestParameters.porodnicaId was null or undefined when calling getWaitingListEntry.');
+        }
+
+        if (requestParameters.entryId === null || requestParameters.entryId === undefined) {
+            throw new runtime.RequiredError('entryId','Required parameter requestParameters.entryId was null or undefined when calling getWaitingListEntry.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/waiting-list/{porodnicaId}/entries/{entryId}`.replace(`{${"porodnicaId"}}`, encodeURIComponent(String(requestParameters.porodnicaId))).replace(`{${"entryId"}}`, encodeURIComponent(String(requestParameters.entryId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => WaitingListEntryFromJSON(jsonValue));
+    }
+
+    /**
+     * By using porodnicaId and entryId you can details of particular entry item porodnica.
+     * Provides details about waiting list entry
+     */
+    async getWaitingListEntry(requestParameters: GetWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WaitingListEntry> {
+        const response = await this.getWaitingListEntryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Use this method to update content of the waiting list entry.
+     * Updates specific entry
+     */
+    async updateWaitingListEntryRaw(requestParameters: UpdateWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WaitingListEntry>> {
+        if (requestParameters.porodnicaId === null || requestParameters.porodnicaId === undefined) {
+            throw new runtime.RequiredError('porodnicaId','Required parameter requestParameters.porodnicaId was null or undefined when calling updateWaitingListEntry.');
+        }
+
+        if (requestParameters.entryId === null || requestParameters.entryId === undefined) {
+            throw new runtime.RequiredError('entryId','Required parameter requestParameters.entryId was null or undefined when calling updateWaitingListEntry.');
+        }
+
+        if (requestParameters.waitingListEntry === null || requestParameters.waitingListEntry === undefined) {
+            throw new runtime.RequiredError('waitingListEntry','Required parameter requestParameters.waitingListEntry was null or undefined when calling updateWaitingListEntry.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/waiting-list/{porodnicaId}/entries/{entryId}`.replace(`{${"porodnicaId"}}`, encodeURIComponent(String(requestParameters.porodnicaId))).replace(`{${"entryId"}}`, encodeURIComponent(String(requestParameters.entryId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: WaitingListEntryToJSON(requestParameters.waitingListEntry),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => WaitingListEntryFromJSON(jsonValue));
+    }
+
+    /**
+     * Use this method to update content of the waiting list entry.
+     * Updates specific entry
+     */
+    async updateWaitingListEntry(requestParameters: UpdateWaitingListEntryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WaitingListEntry> {
+        const response = await this.updateWaitingListEntryRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
