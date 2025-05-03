@@ -13,9 +13,9 @@
       "import": "./dist/porodnica-ambulance-ufe/porodnica-ambulance-ufe.esm.js",
       "require": "./dist/porodnica-ambulance-ufe/porodnica-ambulance-ufe.cjs.js"
     },
-    "./porodnica-ambulance-home": {
-      "import": "./dist/components/porodnica-ambulance-home.js",
-      "types": "./dist/components/porodnica-ambulance-home.d.ts"
+    "./my-component": {
+      "import": "./dist/components/my-component.js",
+      "types": "./dist/components/my-component.d.ts"
     },
     "./loader": {
       "import": "./loader/index.js",
