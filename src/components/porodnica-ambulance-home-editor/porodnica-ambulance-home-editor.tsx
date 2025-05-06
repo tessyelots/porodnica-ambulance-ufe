@@ -185,7 +185,9 @@ export class PorodnicaAmbulanceHomeEditor {
   
       const waitingListApi = new PorodnicaWaitingListApi(configuration);
   
-      const response = await waitingListApi.updateWaitingListEntryRaw({porodnicaId: this.porodnicaId, entryId: this.entryId, waitingListEntry: this.entry});
+      const response = this.entryId == "@new" ?
+      await waitingListApi.createWaitingListEntryRaw({porodnicaId: this.porodnicaId, waitingListEntry: this.entry}) :
+      await waitingListApi.updateWaitingListEntryRaw({porodnicaId: this.porodnicaId, entryId: this.entryId, waitingListEntry: this.entry});
   
       if (response.raw.status < 299) {
         this.editorClosed.emit("store")
@@ -205,9 +207,7 @@ export class PorodnicaAmbulanceHomeEditor {
   
       const waitingListApi = new PorodnicaWaitingListApi(configuration);
   
-      const response = this.entryId == "@new" ?
-      await waitingListApi.createWaitingListEntryRaw({porodnicaId: this.porodnicaId, waitingListEntry: this.entry}) :
-      await waitingListApi.updateWaitingListEntryRaw({porodnicaId: this.porodnicaId, entryId: this.entryId, waitingListEntry: this.entry});
+      const response = await waitingListApi.deleteWaitingListEntryRaw({porodnicaId: this.porodnicaId, entryId: this.entryId});
         if (response.raw.status < 299) {
         this.editorClosed.emit("delete")
         } else {
