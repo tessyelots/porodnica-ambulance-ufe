@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists } from '../runtime';
+import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -48,7 +48,7 @@ export interface WaitingListEntry {
      * @type {Date}
      * @memberof WaitingListEntry
      */
-    estimatedLaborDate?: Date;
+    estimatedLaborDate: Date;
     /**
      * 
      * @type {boolean}
@@ -65,15 +65,16 @@ export function instanceOfWaitingListEntry(value: object): boolean {
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "patientId" in value;
     isInstance = isInstance && "waitingSince" in value;
+    isInstance = isInstance && "estimatedLaborDate" in value;
 
     return isInstance;
 }
 
 export function WaitingListEntryFromJSON(json: any): WaitingListEntry {
-    return WaitingListEntryFromJSONTyped(json);
+    return WaitingListEntryFromJSONTyped(json, false);
 }
 
-export function WaitingListEntryFromJSONTyped(json: any): WaitingListEntry {
+export function WaitingListEntryFromJSONTyped(json: any, ignoreDiscriminator: boolean): WaitingListEntry {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -83,7 +84,7 @@ export function WaitingListEntryFromJSONTyped(json: any): WaitingListEntry {
         'name': !exists(json, 'name') ? undefined : json['name'],
         'patientId': json['patientId'],
         'waitingSince': (new Date(json['waitingSince'])),
-        'estimatedLaborDate': !exists(json, 'estimatedLaborDate') ? undefined : (new Date(json['estimatedLaborDate'])),
+        'estimatedLaborDate': (new Date(json['estimatedLaborDate'])),
         'gaveBirth': !exists(json, 'gaveBirth') ? undefined : json['gaveBirth'],
     };
 }
@@ -101,7 +102,7 @@ export function WaitingListEntryToJSON(value?: WaitingListEntry | null): any {
         'name': value.name,
         'patientId': value.patientId,
         'waitingSince': (value.waitingSince.toISOString()),
-        'estimatedLaborDate': value.estimatedLaborDate === undefined ? undefined : (value.estimatedLaborDate.toISOString()),
+        'estimatedLaborDate': (value.estimatedLaborDate.toISOString()),
         'gaveBirth': value.gaveBirth,
     };
 }

@@ -103,6 +103,14 @@ export class PorodnicaAmbulanceHomeEditor {
             <md-icon slot="leading-icon">watch_later</md-icon>
           </md-filled-text-field>
 
+          <md-filled-text-field label="Odhadovaný čas pôrodu"
+            value={this.entry?.estimatedLaborDate}
+            oninput={ (ev: InputEvent) => {
+              if(this.entry) {this.entry.estimatedLaborDate = new Date(this.handleInputEvent(ev))}
+            } }>
+            <md-icon slot="leading-icon">watch_later</md-icon>
+          </md-filled-text-field>
+
           <div class="birth-container">
           <div class="birth-checkbox">
               <label>
