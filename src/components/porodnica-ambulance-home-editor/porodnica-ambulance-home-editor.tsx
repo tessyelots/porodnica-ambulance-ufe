@@ -62,6 +62,7 @@ export class PorodnicaAmbulanceHomeEditor {
       if (response.raw.status < 299) {
           this.entry = await response.value();
           this.isValid = true;
+          this.isBorn = this.entry.gaveBirth;
       } else {
           this.errorMessage = `Cannot retrieve list of waiting patients: ${response.raw.statusText}`
       }
@@ -115,10 +116,10 @@ export class PorodnicaAmbulanceHomeEditor {
           <div class="birth-checkbox">
               <label>
                 <md-switch 
-                selected={this.entry?.gaveBirth} 
+                selected={this.isBorn} 
                 onChange={this.handleBirthToggle}
-                oninput = { (ev: InputEvent) => {
-                  if(this.entry) {this.entry.gaveBirth = this.handleInputEvent(ev) == 'on'}
+                oninput = { () => {
+                  if(this.entry) {this.entry.gaveBirth = this.isBorn}
                 } }>
                 </md-switch> 
                 Narodené?
