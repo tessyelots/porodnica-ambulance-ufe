@@ -250,4 +250,4 @@ components:
         patientId: 780907-maria-kovacova
         waitingSince: "2038-12-24T10:25:00.000Z"
         estimatedLaborDate: "2038-12-24T10:50:00.000Z"
-        gaveBirth: false
+        gaveBirth: true

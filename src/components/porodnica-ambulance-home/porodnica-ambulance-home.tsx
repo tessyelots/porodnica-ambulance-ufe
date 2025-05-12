@@ -48,7 +48,9 @@ export class PorodnicaAmbulanceHome {
         {this.waitingPatients.map(patient =>
           <md-list-item onClick={ () => this.entryClicked.emit(patient.id)} >
             <div slot="headline">{patient.name}</div>
-            <div slot="supporting-text">{"Predpokladaný porod: " + patient.estimatedLaborDate?.toLocaleString()}</div>
+            {patient.gaveBirth 
+            ? <div slot="supporting-text">{"Pacientka už porodila"}</div> 
+            : <div slot="supporting-text">{"Predpokladaný porod: " + patient.estimatedLaborDate?.toLocaleString()}</div>}
             <md-icon slot="start">person</md-icon>
           </md-list-item>
         )}

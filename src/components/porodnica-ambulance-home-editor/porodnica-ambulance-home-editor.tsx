@@ -40,6 +40,7 @@ export class PorodnicaAmbulanceHomeEditor {
       this.isValid = false;
       this.entry = {
         id: "@new",
+        name: "",
         patientId: "",
         waitingSince: new Date(Date.now()),
         estimatedLaborDate: new Date(Date.now()),

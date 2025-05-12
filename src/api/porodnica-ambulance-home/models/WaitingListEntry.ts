@@ -30,7 +30,7 @@ export interface WaitingListEntry {
      * @type {string}
      * @memberof WaitingListEntry
      */
-    name?: string;
+    name: string;
     /**
      * Unique identifier of the patient known to Web-In-Cloud system
      * @type {string}
