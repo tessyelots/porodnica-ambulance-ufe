@@ -27,6 +27,7 @@ export class PorodnicaAmbulanceHomeEditor {
 
   handleBirthToggle = () => {
     this.isBorn = !this.isBorn;
+    this.entry.gaveBirth = this.isBorn
   }
 
   handleDateTimeChange = (event: Event) => {
@@ -125,20 +126,6 @@ export class PorodnicaAmbulanceHomeEditor {
                 Narodené?
               </label>
             </div>
-            <div>
-            {this.isBorn && 
-              <div class="birth-datetime">
-                <label>
-                  Dátum a čas narodenia:
-                  <input 
-                    type="datetime-local" 
-                    value={this.birthDateTime}
-                    onChange={this.handleDateTimeChange}
-                  />
-                </label>
-              </div>
-            }
-            </div>
           </div>
         </form>
 
@@ -185,7 +172,8 @@ export class PorodnicaAmbulanceHomeEditor {
       });
   
       const waitingListApi = new PorodnicaWaitingListApi(configuration);
-  
+      
+      //console.log(this.entry.gaveBirth)
       const response = this.entryId == "@new" ?
       await waitingListApi.createWaitingListEntryRaw({porodnicaId: this.porodnicaId, waitingListEntry: this.entry}) :
       await waitingListApi.updateWaitingListEntryRaw({porodnicaId: this.porodnicaId, entryId: this.entryId, waitingListEntry: this.entry});
